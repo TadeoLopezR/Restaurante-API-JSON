@@ -76,7 +76,7 @@ function MostrarPlatos(platos) {
         imputAgregar.type = 'number';
         imputAgregar.min = 0;
         imputAgregar.value = 0;
-        imputAgregar.id = `prducto-${id}`;
+        imputAgregar.id = `producto-${id}`;
         imputAgregar.classList.add('form-control');
 
         const agregar = document.createElement('DIV');
@@ -128,10 +128,14 @@ function agregarPlato(producto) {
 
     //limpiar html y evitar duplicados
     limpiarHtml()
-    //mostrar Consumo
-    mostrarConsumo()
 
-    console.log(cliente.pedido)
+    //si pedido tiene lo muestra , si no limpia la ventana de Consumo
+    if (cliente.pedido.length) {
+        //mostrar Consumo
+        mostrarConsumo()
+    }else{
+        mensajePedidoVacio()
+    }
 }
 
 function mostrarConsumo() {
@@ -186,6 +190,15 @@ function mostrarConsumo() {
         const precioSpan = document.createElement('SPAN')
         precioSpan.classList.add('fw-normal')
         precioSpan.textContent= precio
+
+        const subtotalEl =document.createElement('p')
+        subtotalEl.classList.add('fw-bold')
+        subtotalEl.textContent='Subtotal: $'
+
+        const subTotalSpan = document.createElement('SPAN')
+        subTotalSpan.classList.add('fw-normal')
+        //calculando subtotal 
+        subTotalSpan.textContent= precio * cantidad
         
         const cantidadEl =document.createElement('p')
         cantidadEl.classList.add('fw-bold')
@@ -196,15 +209,27 @@ function mostrarConsumo() {
         cantidadSpan.textContent= cantidad
 
 
+        //btn para eliminar
+        const btnEliminar = document.createElement('button')
+        btnEliminar.classList.add('btn','btn-danger')
+        btnEliminar.textContent='Eliminar Pedido'
+
+        btnEliminar.onclick = function () {
+            eliminarProducto(id)
+        }
+
         //agregando spanS
         cantidadEl.appendChild(cantidadSpan)
         precioEl.appendChild(precioSpan)
+        subtotalEl.appendChild(subTotalSpan)
 
 
         //agregando elementos a Li
         lista.appendChild(nombreEl)
         lista.appendChild(cantidadEl)
         lista.appendChild(precioEl)
+        lista.appendChild(subtotalEl)
+        lista.appendChild(btnEliminar)
 
         //agregando lista a Ul
         grupo.appendChild(lista)
@@ -226,6 +251,28 @@ function mostrarConsumo() {
     //agregando a divresumen
     contenido.appendChild(resumen)
 
+}
+
+function eliminarProducto(id) {
+
+    const {pedido} = cliente
+    const resultado = pedido.filter( articulo =>  articulo.id !== id)
+    cliente.pedido = [...resultado]
+    
+    //limpiar html y evitar duplicados
+    limpiarHtml()
+
+    //si pedido tiene lo muestra , si no limpia la ventana de Consumo
+    if (cliente.pedido.length) {
+        //mostrar Consumo
+        mostrarConsumo()
+    }else{
+        mensajePedidoVacio()
+    }
+    //producto eliminado , regresar cantidad a 0 en submit formulario
+    const productoEliminado = `#producto-${id}`
+    const inputEliminado = document.querySelector(productoEliminado)
+    inputEliminado.value = 0;
 }
 
 function limpiarHtml() {
@@ -261,4 +308,15 @@ function imprimirAlerta(mensaje) {
             alerta.remove();
         }, 3000);
     }
+}
+
+function mensajePedidoVacio() {
+    const contenido = document.querySelector('#resumen .contenido')
+
+    const texto = document.createElement('P')
+    texto.classList.add('text-center')
+    texto.textContent = 'Añade los elementos del pedido'
+
+    contenido.appendChild(texto)
+
 }
