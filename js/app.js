@@ -124,11 +124,119 @@ function agregarPlato(producto) {
         //elimiar producto si es 0
         const resultado = pedido.filter( articulo =>  articulo.id !== producto.id)
         cliente.pedido = [...resultado]
-        console.log('es 0')
     }
+
+    //limpiar html y evitar duplicados
+    limpiarHtml()
+    //mostrar Consumo
+    mostrarConsumo()
 
     console.log(cliente.pedido)
 }
+
+function mostrarConsumo() {
+
+    const contenido = document.querySelector('#resumen .contenido')
+
+    const resumen = document.createElement('DIV')
+    resumen.classList.add('col-md-6','card','py-5','px-3','shadow')
+
+    //Informacion de la Mesa
+    const mesa = document.createElement('P')
+    mesa.textContent='Mesa:  '
+    mesa.classList.add('fw-bold')
+
+    const mesaSpan = document.createElement('SPAN')
+    mesaSpan.textContent = cliente.mesa
+    mesaSpan.classList.add('fw-normal')
+
+     //Informacion de la Hora
+    const hora = document.createElement('P')
+    hora.textContent='Hora:  '
+    hora.classList.add('fw-bold')
+
+    const horaSpan = document.createElement('SPAN')
+    horaSpan.textContent = cliente.hora
+    horaSpan.classList.add('fw-normal')
+
+    //agregando al padre
+    mesa.appendChild(mesaSpan)
+    hora.appendChild(horaSpan)
+
+    //mostrar Consumo iterando array pedidos
+    const grupo = document.createElement('UL')
+    grupo.classList.add('list-group')
+
+    const {pedido} = cliente
+    pedido.forEach(articulos => {
+
+        const { nombre,precio,cantidad,categoria,id } = articulos
+
+        const lista =document.createElement('LI')
+        lista.classList.add('list-group-item')
+
+        const nombreEl =document.createElement('H4')
+        nombreEl.classList.add('my-4')
+        nombreEl.textContent=nombre
+        
+        const precioEl =document.createElement('p')
+        precioEl.classList.add('fw-bold')
+        precioEl.textContent='Precio: $'
+
+        const precioSpan = document.createElement('SPAN')
+        precioSpan.classList.add('fw-normal')
+        precioSpan.textContent= precio
+        
+        const cantidadEl =document.createElement('p')
+        cantidadEl.classList.add('fw-bold')
+        cantidadEl.textContent='Cantidad: '
+
+        const cantidadSpan = document.createElement('SPAN')
+        cantidadSpan.classList.add('fw-normal')
+        cantidadSpan.textContent= cantidad
+
+
+        //agregando spanS
+        cantidadEl.appendChild(cantidadSpan)
+        precioEl.appendChild(precioSpan)
+
+
+        //agregando elementos a Li
+        lista.appendChild(nombreEl)
+        lista.appendChild(cantidadEl)
+        lista.appendChild(precioEl)
+
+        //agregando lista a Ul
+        grupo.appendChild(lista)
+
+    });
+
+
+    //titulo
+    const heading = document.createElement('H3')
+    heading.textContent='Consumo'
+    heading.classList.add('my-4','text-center')
+
+
+   //agregando a contenido
+    resumen.appendChild(mesa)
+    resumen.appendChild(hora)
+    resumen.appendChild(heading)
+    resumen.appendChild(grupo)
+    //agregando a divresumen
+    contenido.appendChild(resumen)
+
+}
+
+function limpiarHtml() {
+    const contenido = document.querySelector('#resumen .contenido')
+
+    while (contenido.firstChild) {
+        contenido.removeChild(contenido.firstChild)
+    }
+
+}
+
 function mostrarSeccion() {
     const seccionesOcultas = document.querySelectorAll('.d-none');
     seccionesOcultas.forEach(seccion => seccion.classList.remove('d-none'));
