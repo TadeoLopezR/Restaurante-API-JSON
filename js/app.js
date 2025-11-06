@@ -51,6 +51,7 @@ function obtenerPlatillos() {
 
 function MostrarPlatos(platos) {
     const contenido = document.querySelector('#platillos .contenido');
+    contenido.dataset.cy= 'contenido'
     
     platos.forEach(plato => {
 
@@ -459,6 +460,9 @@ function mostrarSeccion() {
 function imprimirAlerta(mensaje) {
 
     const alerta = document.createElement('DIV');
+
+    alerta.dataset.cy= 'alerta'
+
     alerta.classList.add('invalid-feedback', 'd-block', 'text-center');
     alerta.innerHTML =
             `

@@ -1,0 +1,22 @@
+{
+  "name": "restaurante-api-json",
+  "version": "1.0.0",
+  "description": "Pasando Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TadeoLopezR/Restaurante-API-JSON.git"
+  },
+  "author": "TadeoLopezR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TadeoLopezR/Restaurante-API-JSON/issues"
+  },
+  "homepage": "https://github.com/TadeoLopezR/Restaurante-API-JSON#readme",
+  "devDependencies": {
+    "cypress": "^15.5.0"
+  }
+}
