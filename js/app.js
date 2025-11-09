@@ -60,10 +60,12 @@ function MostrarPlatos(platos) {
         // Crear el div de plato
         const divPlato = document.createElement('DIV');
         divPlato.classList.add('row', 'py-3', 'border-top');
+        divPlato.dataset.cy= 'divPlato'
 
         const nombrePlato = document.createElement('DIV');
         nombrePlato.classList.add('col-md-4');
         nombrePlato.textContent = nombre;
+        nombrePlato.dataset.cy= 'nombrePlato'
 
         const precioPlato = document.createElement('DIV');
         precioPlato.classList.add('col-md-3', 'fw-bold');
@@ -186,6 +188,7 @@ function mostrarConsumo() {
         const nombreEl =document.createElement('H4')
         nombreEl.classList.add('my-4')
         nombreEl.textContent=nombre
+        nombreEl.dataset.cy= 'nombreEl'
         
         const precioEl =document.createElement('p')
         precioEl.classList.add('fw-bold')
@@ -272,6 +275,7 @@ function formularioPropinas() {
 
     const divFormulario = document.createElement('DIV')
     divFormulario.classList.add('card','py-3','px-3','shadow')
+    divFormulario.dataset.cy= 'divFormulario'
 
     const heading = document.createElement('H3')
     heading.classList.add('my-4','text-center')
@@ -285,6 +289,7 @@ function formularioPropinas() {
     checkBox10.value = '10';
     checkBox10.classList.add('form-check-input');
     checkBox10.onclick = calcularPropina;
+    
     
     const checkLabel10 = document.createElement('LABEL');
     checkLabel10.textContent = '10%';

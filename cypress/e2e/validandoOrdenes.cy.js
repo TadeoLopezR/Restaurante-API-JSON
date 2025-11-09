@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Validando Ordenes', () => { 
+describe('Validando Ordenes y Probando boton de eliminar', () => { 
   
   it('Mostrar Platos y validando la orden',() => {
    
@@ -26,39 +26,32 @@ describe('Validando Ordenes', () => {
     cy.get('[data-cy="contenido"]')
         .children('div').should('have.length',12)
 
-    //Ordenando 
+    //Validando lo ordenando y comparando 
 
-    const orden1 = cy.get('[data-cy="contenido"]')
-                    .children('div').eq(2)
-                    .find('input').type('{uparrow}')
-                    //tomo el nombre de la orden
-                    .parents('div').find('.col-md-4').eq(2)
-    
-    const orden2 = cy.get('[data-cy="contenido"]')
-                    .children('div').eq(1)
-                    .find('input')
-                    .type('{uparrow}')
-                    .type('{uparrow}')
-                    //tomo el nombre de la orden
-                    .parents('div').find('.col-md-4').eq(1)
-   
-    
-    //Comparo nombre de lo Ordenado
-    orden1.then(($el1) =>{
-        cy.get('[data-cy="lista"]')
-          .children('h4').eq(0).then(($el2) =>{
-             expect($el1.text()).to.equal($el2.text())
+    cy.get('[data-cy="divPlato"]').each(($div, index) => {
+      //aumento el input y ordeno
+      cy.wrap($div).find('input[type=number]').type('{uparrow}')
+      //tomo el nombre del plato y lo comparo con el nombre de lo ordenado 
+      cy.wrap($div).find('.col-md-4').invoke('text').then((textoH1) => {
+        cy.get(`[data-cy="lista"]:eq(${index}) h4`).should('have.text', textoH1)
       })
     })
-
-    orden2.then(($el1) =>{
-        cy.get('[data-cy="lista"]')
-          .children('h4').eq(1).then(($el2) =>{
-             expect($el1.text()).to.equal($el2.text())
-      })
-    })
+    
   })
   
-  
+  it('Probando boton Eliminar', () =>{
+
+    cy.get('[data-cy="lista"] h4').eq(0)
+      .invoke('text')
+      .should('equal','Pizza a la Leña Chica')
+
+    cy.get('[data-cy="lista"] button').eq(0).click()
+
+    cy.get('[data-cy="lista"] h4').eq(0)
+      .invoke('text')
+      .should('not.equal','Pizza a la Leña Chica')
+    // cy.get('[data-cy="lista"]').eq(0)
+    // cy.get('h4').should('no_equal','Pizza a la Leña Chica')
+  })
 
 })                                         
