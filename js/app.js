@@ -181,6 +181,7 @@ function mostrarConsumo() {
 
         const lista =document.createElement('LI')
         lista.classList.add('list-group-item')
+        lista.dataset.cy= 'lista'
 
         const nombreEl =document.createElement('H4')
         nombreEl.classList.add('my-4')
